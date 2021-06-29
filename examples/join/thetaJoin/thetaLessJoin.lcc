@@ -1,0 +1,43 @@
+package com.oblivm.backend.generated.thetaJoin;
+
+secure int1 applyFilter(secure int lTuple, secure int rTuple) {
+    secure int1 ret = 0;
+    if (lTuple$0~32$ < rTuple$0~32$) {
+        ret = 1;
+    }
+    return ret;
+}
+
+int main@l@r(int[l] lhs, int[r] rhs) {     
+    secure int lTupleCount, rTupleCount;
+    lTupleCount = l;
+    rTupleCount = r;
+
+    secure int[secure l*r] dst;
+    int dstIdx = 0;
+
+    secure int srcTuple = 0;
+    secure int t2 = 0;
+    secure int1 filter = 0;
+
+    bfor(l) (int i = 0; i < lTupleCount; i = i + 1) {
+        srcTuple = lhs[i];
+        bfor(l*r) (int j = 0; j < rTupleCount; j = j + 1) {
+            t2 = rhs[j];
+            filter = applyFilter(srcTuple, t2);
+            
+            if(filter == 1) {
+                int dstTuple;
+                dstTuple$0~32$ = t2$0~32$;
+
+                dst[dstIdx] = dstTuple;
+                dstIdx = dstIdx + 1;
+            }
+        }
+    }
+    bfor(l*r) (int i=0;i<dstIdx;i=i+1) {
+        debug(dst[i]);
+    }
+    
+    return dstIdx;
+}

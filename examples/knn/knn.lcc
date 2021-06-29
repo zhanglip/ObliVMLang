@@ -1,0 +1,57 @@
+package com.oblivm.backend.generated.knn;
+
+secure int1 applyFilter(secure int lTuple, secure int rTuple) {
+    secure int1 ret = 0;
+    if (lTuple$0~32$ < rTuple$0~32$) {
+        ret = 1;
+    }
+    return ret;
+}
+
+int main@l@r(int[l] lhs, int[r] rhs) {     
+	int k = 8;
+    secure int lTupleCount, rTupleCount;
+    lTupleCount = l;
+    rTupleCount = r;
+
+    secure int1 filter = 0;
+	secure int lIndex = 0;
+	secure int rIndex = 0;
+	secure int lTuple = 0;
+	secure int rTuple = 0;
+	int count = 0;
+	
+	bwhile(l+r) (lIndex < lTupleCount && rIndex < rTupleCount){
+		if(count == k){
+			//debug(lIndex);
+			//cannot use keyword 'break'
+			lIndex = lTupleCount;
+			rIndex = rTupleCount;
+		}
+		lTuple = lhs[lIndex];
+		rTuple = rhs[rIndex];
+		filter = applyFilter(lTuple, rTuple);
+		if(filter == 1) {
+			debug(lTuple);
+			lIndex = lIndex + 1;
+		}
+		else{
+			debug(rTuple);
+			rIndex = rIndex + 1;
+		}
+		count = count + 1;
+	}
+	bwhile(l) (lIndex < lTupleCount && count < k) {
+		lTuple = lhs[lIndex];
+		debug(lTuple);
+		lIndex = lIndex + 1;
+		count = count + 1;
+	}
+	bwhile(r) (rIndex < rTupleCount && count < k) {
+		rTuple = rhs[rIndex];
+		debug(rTuple);
+		rIndex = rIndex + 1;
+		count = count + 1;
+	}
+    return count;
+}
